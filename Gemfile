@@ -35,16 +35,8 @@ group :development do
 end
 
 group :test do
-  # gem 'capybara'
   # gem 'factory_girl_rails'
-  # gem 'rails-controller-testing'
-  # gem 'fuubar'
-  # gem 'rb-fsevent', require: false # MacOSX only. Needed for bundle exec rake watchr
-  # gem 'rspec-mocks'
-  # gem 'rspec-rails'
-  # gem 'simplecov'
-  # gem 'timecop'
-  # gem 'watchr'
-  # gem 'webmock', '~> 3.6.2', require: false
-  # gem 'zeus'
+  gem 'rspec-mocks'
+  gem 'rspec-rails'
+  # gem 'webmock'
 end
