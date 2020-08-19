@@ -1,8 +1,8 @@
 Rails.application.routes.draw do
 
   namespace :api do
+    resources :chickens, only: %i[index]
     namespace :v1 do
-      resources :chickens, only: %i[index]
       resources :posts
     end
   end

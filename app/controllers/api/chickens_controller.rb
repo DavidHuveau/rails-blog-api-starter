@@ -1,6 +1,6 @@
-class Api::V1::ChickensController < ApplicationController
+# class Api::V1::ChickensController < ApplicationController
+class Api::ChickensController < ApplicationController
   def index
-    debugger
     head :ok
   end
 end
