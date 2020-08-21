@@ -36,6 +36,7 @@ end
 
 group :test do
   gem 'factory_girl_rails'
+  gem 'faker'
   gem 'rspec-mocks'
   gem 'rspec-rails'
   # gem 'webmock'
