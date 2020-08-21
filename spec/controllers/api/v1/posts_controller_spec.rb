@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# RSpec.describe "Posts", type: :request do
 describe Api::V1::PostsController, type: :controller do
 
   describe 'index' do

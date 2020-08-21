@@ -1,7 +1,6 @@
 require 'rails_helper'
 
-# RSpec.describe "Posts", type: :request do
-describe User, type: :model, focus: true do
+describe User, type: :model do
   before { @user = FactoryGirl.build(:user) }
   subject { @user }
 
