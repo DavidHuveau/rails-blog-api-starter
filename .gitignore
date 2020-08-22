@@ -5,7 +5,8 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 # Ignore bundler config.
-/.bundle
+.env
+.bundle
 
 # Ignore all logfiles and tempfiles.
 /log/*
@@ -17,3 +18,5 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+.vscode

@@ -1,8 +1,7 @@
 require 'rails_helper'
 
 describe Api::V1::PostsController, type: :controller do
-
-  describe 'index' do
+  describe 'GET #index' do
     it 'should return all posts' do
       4.times do
         post = FactoryGirl.create(:post)
