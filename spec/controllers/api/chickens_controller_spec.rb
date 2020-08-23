@@ -2,7 +2,6 @@ require 'rails_helper'
 
 describe Api::ChickensController, type: :controller do
   describe 'index' do
-
     it 'should return an header ok' do
       payload = {}
       get :index, params: payload
