@@ -10,7 +10,6 @@ end
 #     class PostsController < ApplicationController
 
 #       def index
-#         debugger
 #         head :ok
 #       end
 

@@ -8,7 +8,6 @@ describe Api::V1::UsersController, type: :controller do
     end
 
     it 'should returns the information about a reporter on a hash' do
-      debugger
       expect(response.code).to eq '200'
 
       user_response = JSON.parse(response.body, symbolize_names: true)
@@ -16,7 +15,7 @@ describe Api::V1::UsersController, type: :controller do
     end
   end
 
-  describe 'POST #create', focus: true do
+  describe 'POST #create' do
     context 'when is successfully created' do
       before(:each) do
         @user_attributes = FactoryGirl.attributes_for :user
@@ -33,11 +32,11 @@ describe Api::V1::UsersController, type: :controller do
     context 'when is not created' do
       before(:each) do
         # notice I'm not including the email
-        @invalid_user_attributes = {
+        invalid_user_attributes = {
           password: '12345678',
           password_confirmation: '12345678'
         }
-        post :create, params: { user: @invalid_user_attributes}
+        post :create, params: { user: invalid_user_attributes}
       end
 
       it 'renders the json errors on why the user could not be created' do
@@ -45,6 +44,35 @@ describe Api::V1::UsersController, type: :controller do
         expect(response.response_code).to eq(422)
         expect(user_response).to have_key(:errors)
         expect(user_response[:errors][:email]).to include "can't be blank"
+      end
+    end
+  end
+
+  describe 'PUT/PATCH #update', focus: true do
+    context 'when is successfully updated' do
+      before(:each) do
+        user = FactoryGirl.create :user
+        patch :update, params: { id: user.id, user: { email: "newmail@example.com" } }
+      end
+
+      it "renders the json representation for the updated user" do
+        user_response = JSON.parse(response.body, symbolize_names: true)
+        expect(response.response_code).to eq(200)
+        expect(user_response[:email]).to eq 'newmail@example.com'
+      end
+    end
+
+    context 'when is not created' do
+      before(:each) do
+      user = FactoryGirl.create :user
+      patch :update, params: { id: user.id, user: { email: "bademail.com" } }
+      end
+
+      it "renders an errors json" do
+        user_response = JSON.parse(response.body, symbolize_names: true)
+        expect(response.response_code).to eq(422)
+        expect(user_response).to have_key(:errors)
+        expect(user_response[:errors][:email]).to include "is invalid"
       end
     end
   end
