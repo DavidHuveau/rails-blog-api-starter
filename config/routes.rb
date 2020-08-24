@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 
     namespace :v1 do
       resources :posts
-      resources :users, only: %i[show create update]
+      resources :users, only: %i[show create update destroy]
     end
   end
 end

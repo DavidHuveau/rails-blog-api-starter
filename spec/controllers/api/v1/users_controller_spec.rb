@@ -48,14 +48,14 @@ describe Api::V1::UsersController, type: :controller do
     end
   end
 
-  describe 'PUT/PATCH #update', focus: true do
+  describe 'PUT/PATCH #update' do
     context 'when is successfully updated' do
       before(:each) do
         user = FactoryGirl.create :user
-        patch :update, params: { id: user.id, user: { email: "newmail@example.com" } }
+        patch :update, params: { id: user.id, user: { email: 'newmail@example.com' } }
       end
 
-      it "renders the json representation for the updated user" do
+      it 'renders the json representation for the updated user' do
         user_response = JSON.parse(response.body, symbolize_names: true)
         expect(response.response_code).to eq(200)
         expect(user_response[:email]).to eq 'newmail@example.com'
@@ -65,15 +65,24 @@ describe Api::V1::UsersController, type: :controller do
     context 'when is not created' do
       before(:each) do
       user = FactoryGirl.create :user
-      patch :update, params: { id: user.id, user: { email: "bademail.com" } }
+      patch :update, params: { id: user.id, user: { email: 'bademail.com' } }
       end
 
-      it "renders an errors json" do
+      it 'renders an errors json' do
         user_response = JSON.parse(response.body, symbolize_names: true)
         expect(response.response_code).to eq(422)
         expect(user_response).to have_key(:errors)
-        expect(user_response[:errors][:email]).to include "is invalid"
+        expect(user_response[:errors][:email]).to include 'is invalid'
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    it 'renders the json representation after deleted user' do
+      user = FactoryGirl.create :user
+      delete :destroy, params: { id: user.id }
+
+      expect(response.response_code).to eq(200)
     end
   end
 end
