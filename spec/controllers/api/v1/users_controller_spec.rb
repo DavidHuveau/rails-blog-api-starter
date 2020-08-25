@@ -8,7 +8,7 @@ describe Api::V1::UsersController, type: :controller do
       get :show, params: { id: @user.id}
     end
 
-    it 'should returns the information about a reporter on a hash', focus: true do
+    it 'should returns the information about a reporter on a hash' do
       expect(response.code).to eq '200'
 
       user_response = json_response
