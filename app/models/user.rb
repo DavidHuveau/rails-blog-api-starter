@@ -50,8 +50,8 @@ class User
 
   def generate_authentification_token!
     loop do
-      self.authentication_token = Devise.friendly_token
-      break unless User.where(authentication_token: self.authentication_token).first
+      authentication_token = Devise.friendly_token
+      break unless User.where(authentication_token: authentication_token).first
     end
   end
 

@@ -32,4 +32,19 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
       end
     end
   end
+
+  describe "DELETE #destroy", focus: true do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      sign_in @user
+
+      delete :destroy, params: { id: @user.authentication_token }
+    end
+
+    it 'clear authentication token' do
+      expect(response.response_code).to eq(204)
+      @user.reload
+      expect(@user.authentication_token).to eq ''
+    end
+  end
 end
