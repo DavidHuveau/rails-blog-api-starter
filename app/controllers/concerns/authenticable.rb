@@ -12,4 +12,10 @@ module Authenticable
 
     # @current_user = User.find(decoded[:user_id]) rescue ActiveRecord::RecordNotFound
   end
+
+  def authenticate_with_token!
+    return if current_user.present?
+
+    render json: { errors: 'Not authenticated' }, status: :unauthorized
+  end
 end
