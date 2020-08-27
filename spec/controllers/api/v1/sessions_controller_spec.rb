@@ -27,7 +27,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
       end
 
       it 'returns a json with an error' do
-        expect(response.response_code).to eq(422)
+        expect(response.response_code).to eq(401)
         expect(json_response[:errors]).to eq 'Invalid email or password'
       end
     end

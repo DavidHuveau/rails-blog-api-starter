@@ -44,11 +44,11 @@ class User
 
   validates :authentication_token, uniqueness: true
 
-  before_create :generate_authentification_token!
+  before_create :generate_authentication_token!
 
   index({ authentication_token: 1 }, unique: true)
 
-  def generate_authentification_token!
+  def generate_authentication_token!
     loop do
       authentication_token = Devise.friendly_token
       break unless User.where(authentication_token: authentication_token).first
