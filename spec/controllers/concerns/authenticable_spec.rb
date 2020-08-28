@@ -8,7 +8,6 @@ RSpec.describe Authenticable do
   describe '#current_user' do
     before do
       @user = FactoryGirl.create :user
-      debugger
       request.headers["Authorization"] = @user.authentication_token
       authentication.stub(:request).and_return(request)
     end
@@ -18,7 +17,7 @@ RSpec.describe Authenticable do
     end
   end
 
-  describe '#authenticate_with_token', focus: true do
+  describe '#authenticate_with_token' do
     before do
       @user = FactoryGirl.create :user
       authentication.stub(:current_user).and_return(nil)

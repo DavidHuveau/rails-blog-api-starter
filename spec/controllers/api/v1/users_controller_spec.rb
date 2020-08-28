@@ -53,6 +53,7 @@ describe Api::V1::UsersController, type: :controller do
     context 'when is successfully updated' do
       before(:each) do
         user = FactoryGirl.create :user
+        api_authorization_header(user.authentication_token)
         patch :update, params: { id: user.id, user: { email: 'newmail@example.com' } }
       end
 
@@ -65,8 +66,9 @@ describe Api::V1::UsersController, type: :controller do
 
     context 'when is not created' do
       before(:each) do
-      user = FactoryGirl.create :user
-      patch :update, params: { id: user.id, user: { email: 'bademail.com' } }
+        user = FactoryGirl.create :user
+        api_authorization_header(user.authentication_token)
+        patch :update, params: { id: user.id, user: { email: 'bademail.com' } }
       end
 
       it 'renders an errors json' do
@@ -81,6 +83,7 @@ describe Api::V1::UsersController, type: :controller do
   describe 'DELETE #destroy' do
     it 'renders the json representation after deleted user' do
       user = FactoryGirl.create :user
+      api_authorization_header(user.authentication_token)
       delete :destroy, params: { id: user.id }
 
       expect(response.response_code).to eq(200)

@@ -5,6 +5,6 @@ FactoryGirl.define do
     sequence(:email){|n| "user#{n}@factory.com" }
     password '12345678'
     password_confirmation '12345678'
-    authentication_token 'authentication_token'
+    sequence(:authentication_token){|n| "authentication_token#{n}" }
   end
 end
