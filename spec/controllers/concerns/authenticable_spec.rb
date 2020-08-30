@@ -2,13 +2,13 @@ class Authentication < ActionController::API
   include Authenticable
 end
 
-RSpec.describe Authenticable do
+RSpec.describe Authenticable, focus: true do
   let(:authentication) { Authentication.new }
 
   describe '#current_user' do
     before do
       @user = FactoryGirl.create :user
-      request.headers["Authorization"] = @user.authentication_token
+      api_authorization_header(@user.authentication_token)
       authentication.stub(:request).and_return(request)
     end
 
