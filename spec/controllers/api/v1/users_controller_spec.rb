@@ -11,7 +11,7 @@ describe Api::V1::UsersController, type: :controller do
       end
 
       it 'should returns the information about a reporter on a hash' do
-        expect(response.code).to eq '200'
+        expect(response.response_code).to eq(200)
         user_response = json_response
         expect(user_response[:email]).to eql @user.email
       end
@@ -57,6 +57,7 @@ describe Api::V1::UsersController, type: :controller do
       it 'renders the json errors on why the user could not be created' do
         user_response = json_response
         expect(response.response_code).to eq(422)
+        debugger
         expect(user_response).to have_key(:errors)
         expect(user_response[:errors][:email]).to include "can't be blank"
       end
