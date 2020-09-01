@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "955c63f5-192c-4c18-a02e-a17d784490ac",
+		"name": "blog_api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "users",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"user\": {\n        \"first_name\":\"David\",\n        \"last_name\":\"Huveau\",\n        \"email\":\"dave@gmail.com\",\n        \"password\":\"12345678\",\n        \"password_confirmation\":\"12345678\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

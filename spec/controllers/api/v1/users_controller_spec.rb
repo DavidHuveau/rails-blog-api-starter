@@ -3,16 +3,30 @@ require 'support/request_helpers'
 
 describe Api::V1::UsersController, type: :controller do
   describe 'GET #show' do
-    before(:each) do
-      @user = FactoryGirl.create :user
-      get :show, params: { id: @user.id}
+    context 'with authorization header' do
+      before(:each) do
+        @user = FactoryGirl.create :user
+        api_authorization_header(@user.authentication_token)
+        get :show, params: { id: @user.id}
+      end
+
+      it 'should returns the information about a reporter on a hash' do
+        expect(response.code).to eq '200'
+        user_response = json_response
+        expect(user_response[:email]).to eql @user.email
+      end
     end
 
-    it 'should returns the information about a reporter on a hash' do
-      expect(response.code).to eq '200'
+    context 'without authorization header' do
+      before(:each) do
+        @user = FactoryGirl.create :user
+        get :show, params: { id: @user.id}
+      end
 
-      user_response = json_response
-      expect(user_response[:email]).to eql @user.email
+      it 'should returns the information about a reporter on a hash' do
+        expect(response.response_code).to eq(401)
+        expect(json_response[:errors]).to eql 'Not authenticated'
+      end
     end
   end
 
@@ -24,8 +38,8 @@ describe Api::V1::UsersController, type: :controller do
       end
 
       it 'renders the json representation for the user record just created' do
-        user_response = json_response
         expect(response.response_code).to eq(201)
+        user_response = json_response
         expect(user_response[:email]).to eql @user_attributes [:email]
       end
     end

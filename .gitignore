@@ -20,3 +20,5 @@
 /config/master.key
 
 .vscode
+
+.DS_Store

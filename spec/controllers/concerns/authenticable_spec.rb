@@ -2,7 +2,7 @@ class Authentication < ActionController::API
   include Authenticable
 end
 
-RSpec.describe Authenticable, focus: true do
+RSpec.describe Authenticable do
   let(:authentication) { Authentication.new }
 
   describe '#current_user' do

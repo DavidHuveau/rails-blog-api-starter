@@ -1,9 +1,5 @@
 class Api::V1::UsersController < ApplicationController
-  before_action :authenticate_with_token!, only: %i[update destroy]
-  
-  def show
-    render json: User.find(params[:id])
-  end
+  before_action :authenticate_with_token, only: %i[show update destroy]
 
   def create
     user = User.create(user_params)
@@ -13,6 +9,10 @@ class Api::V1::UsersController < ApplicationController
     else
       render json: { errors: user.errors }, status: 422
     end
+  end
+
+  def show
+    render json: current_user, status: 200
   end
 
   def update
@@ -36,6 +36,6 @@ class Api::V1::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name)
+    params.require(:user).permit(:email, :password, :password_confirmation, :first_name, :last_name, :authorization)
   end
 end

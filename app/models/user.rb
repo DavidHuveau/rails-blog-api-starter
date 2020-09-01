@@ -44,14 +44,27 @@ class User
 
   validates :authentication_token, uniqueness: true
 
-  before_create :generate_authentication_token!
+  before_save :ensure_authentication_token
 
   index({ authentication_token: 1 }, unique: true)
 
-  def generate_authentication_token!
+  # def as_json(_options = {})
+  #   {
+  #     auth_token: authentication_token,
+  #     email: email,
+  #     first_name: first_name,
+  #     last_name: last_name
+  #   }
+  # end
+
+  def ensure_authentication_token
+    self.authentication_token = generate_authentication_token if authentication_token.blank?
+  end
+
+  def generate_authentication_token
     loop do
-      authentication_token = Devise.friendly_token
-      break unless User.where(authentication_token: authentication_token).first
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
     end
   end
 

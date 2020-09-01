@@ -7,7 +7,9 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
     context 'when the credentials are correct' do
       before(:each) do
         post :create, params: {
-          session: { email: @user.email, password: '12345678' }
+          session: {
+            email: @user.email, password: '12345678'
+          }
         }
       end
 
@@ -22,7 +24,9 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
     context 'when the credentials are incorrect' do
       before(:each) do
         post :create, params: {
-          session: { email: @user.email, password: 'invalidpassword' }
+          session: {
+            email: @user.email, password: 'invalidpassword'
+          }
         }
       end
 
