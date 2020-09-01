@@ -48,14 +48,14 @@ class User
 
   index({ authentication_token: 1 }, unique: true)
 
-  # def as_json(_options = {})
-  #   {
-  #     auth_token: authentication_token,
-  #     email: email,
-  #     first_name: first_name,
-  #     last_name: last_name
-  #   }
-  # end
+  def as_json(_options = {})
+    {
+      auth_token: authentication_token,
+      email: email,
+      first_name: first_name,
+      last_name: last_name
+    }
+  end
 
   def ensure_authentication_token
     self.authentication_token = generate_authentication_token if authentication_token.blank?
