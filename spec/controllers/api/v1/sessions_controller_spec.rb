@@ -17,7 +17,7 @@ RSpec.describe Api::V1::SessionsController, type: :controller do
         expect(response.response_code).to eq(200)
 
         @user.reload
-        expect(json_response[:authentication_token]).to eq @user.authentication_token
+        expect(json_response[:auth_token]).to eq @user.authentication_token
       end
     end
 
