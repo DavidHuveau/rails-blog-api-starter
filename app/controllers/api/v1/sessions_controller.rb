@@ -8,15 +8,15 @@ class Api::V1::SessionsController < ApplicationController
       sign_in user
       user.generate_authentication_token
       user.save
-      render json: user, status: 200
+      render json: user, status: :ok
     else
-      render json: { errors: 'Invalid email or password' }, status: 422
+      render json: { errors: 'Invalid email or password' }, status: :unprocessable_entity
     end
   end
 
   def destroy
     user = User.find_by(authentication_token: params[:id])
     user.set authentication_token: ''
-    head 204
+    head :no_content
   end
 end

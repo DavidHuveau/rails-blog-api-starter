@@ -9,19 +9,19 @@ class Api::V1::UsersController < ApplicationController
   end
 
   def show
-    render_or_error(current_user, 200)
+    render_or_error(current_user, :ok)
   end
 
   def update
     user = current_user
     user.update(user_params)
-    render_or_error(user, 200)
+    render_or_error(user, :ok)
   end
 
   def destroy
     user = current_user
     user.destroy
-    render_or_error(user, 200)
+    render_or_error(user, :ok)
   end
 
   private
