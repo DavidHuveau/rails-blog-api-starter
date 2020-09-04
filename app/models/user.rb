@@ -42,6 +42,8 @@ class User
   field :first_name, type: String
   field :last_name, type: String
 
+  has_many :posts, dependent: :destroy
+
   validates :authentication_token, uniqueness: true
 
   before_save :ensure_authentication_token

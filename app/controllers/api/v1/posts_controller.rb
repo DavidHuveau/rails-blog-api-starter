@@ -40,6 +40,6 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :detail)
+    params.require(:post).permit(:title, :detail, :published)
   end
 end
