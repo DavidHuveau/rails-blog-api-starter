@@ -1,4 +1,6 @@
 class Api::V1::PostsController < ApplicationController
+  include SmartRenderer
+
   before_action :set_post, only: %i[show update destroy]
   before_action :authenticate_with_token, only: %i[create]
 
@@ -11,7 +13,6 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
-    debugger
     post = current_user.posts.create(post_params)
     render_or_error(post)
   end
