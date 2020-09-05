@@ -14,17 +14,6 @@ describe Api::V1::PostsController, type: :controller do
       expect(response.response_code).to eq(200)
       expect(json_response.size).to eq(4)
     end
-    # before(:each) do
-    #   4.times { FactoryGirl.create :post }
-    #   # sleep 1
-    #   get :index
-    # end
-
-    # it { expect(response.response_code).to eq(200) }
-
-    # it 'returns 4 records from the database' do
-    #   expect(json_response.size).to eq(4)
-    # end
   end
 
   describe 'GET #show' do
@@ -117,5 +106,16 @@ describe Api::V1::PostsController, type: :controller do
         expect(post_response[:errors][:title]).to include "can't be blank"
       end
     end
+  end
+
+  describe 'DELETE #destroy' do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @post = FactoryGirl.create :post, user: @user
+      api_authorization_header(@user.authentication_token)
+      delete :destroy, params: { user_id: @user.id, id: @post.id }
+    end
+
+    it { expect(response.response_code).to eq(200) }
   end
 end

@@ -1,8 +1,8 @@
 class Api::V1::PostsController < ApplicationController
   include SmartRenderer
 
-  before_action :set_post, only: %i[show destroy]
-  before_action :authenticate_with_token, only: %i[create update]
+  before_action :set_post, only: %i[show]
+  before_action :authenticate_with_token, only: %i[create update destroy]
 
   def index
     render json: Post.all
@@ -23,9 +23,11 @@ class Api::V1::PostsController < ApplicationController
     render_or_error(post, :ok)
   end
 
-  # def destroy
-  #   @post.destroy
-  # end
+  def destroy
+    post = current_user.posts.find(params[:id])
+    post.destroy
+    render_or_error(post, :ok)
+  end
 
   private
 
