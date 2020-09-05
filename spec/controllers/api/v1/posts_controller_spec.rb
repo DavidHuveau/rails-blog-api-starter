@@ -39,7 +39,6 @@ describe Api::V1::PostsController, type: :controller do
       post_response = json_response
       expect(post_response[:title]).to eq @post.title
     end
-
   end
 
   describe 'POST #create' do
@@ -48,7 +47,6 @@ describe Api::V1::PostsController, type: :controller do
         user = FactoryGirl.create :user
         @post_attributes = FactoryGirl.attributes_for :post
         api_authorization_header(user.authentication_token)
-        debugger
         post :create, params: { user_id: user.id, post: @post_attributes }
       end
 
@@ -58,7 +56,6 @@ describe Api::V1::PostsController, type: :controller do
         post_response = json_response
         expect(post_response[:title]).to eq @post_attributes[:title]
       end
-
     end
 
     context 'when is not created' do
@@ -67,6 +64,45 @@ describe Api::V1::PostsController, type: :controller do
         @invalid_post_attributes = { published: 'abcd' }
         api_authorization_header(user.authentication_token)
         post :create, params: { user_id: user.id, post: @invalid_post_attributes }
+      end
+
+      it { expect(response.response_code).to eq(422) }
+
+      it 'renders an errors json' do
+        post_response = json_response
+        expect(post_response).to have_key(:errors)
+      end
+
+      it 'renders the json errors on why the user could not be created' do
+        post_response = json_response
+        expect(post_response[:errors][:title]).to include "can't be blank"
+      end
+    end
+  end
+
+  describe 'PUT/PATCH #update' do
+    before(:each) do
+      @user = FactoryGirl.create :user
+      @post = FactoryGirl.create :post, user: @user
+      api_authorization_header(@user.authentication_token)
+    end
+
+    context 'when is successfully updated' do
+      before(:each) do
+        patch :update, params: { user_id: @user.id, id: @post.id, post: { title: 'An expensive TV' } }
+      end
+
+      it { expect(response.response_code).to eq(200) }
+
+      it 'renders the json representation for the updated user' do
+        post_response = json_response
+        expect(post_response[:title]).to eql 'An expensive TV'
+      end
+    end
+
+    context 'when is not updated' do
+      before(:each) do
+        patch :update, params: { user_id: @user.id, id: @post.id, post: { title: '' } }
       end
 
       it { expect(response.response_code).to eq(422) }

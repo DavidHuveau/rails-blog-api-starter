@@ -1,8 +1,8 @@
 class Api::V1::PostsController < ApplicationController
   include SmartRenderer
 
-  before_action :set_post, only: %i[show update destroy]
-  before_action :authenticate_with_token, only: %i[create]
+  before_action :set_post, only: %i[show destroy]
+  before_action :authenticate_with_token, only: %i[create update]
 
   def index
     render json: Post.all
@@ -17,13 +17,11 @@ class Api::V1::PostsController < ApplicationController
     render_or_error(post)
   end
 
-  # def update
-  #   if @post.update(post_params)
-  #     render json: @post
-  #   else
-  #     render json: @post.errors, status: :unprocessable_entity
-  #   end
-  # end
+  def update
+    post = current_user.posts.find(params[:id])
+    post.update(post_params)
+    render_or_error(post, :ok)
+  end
 
   # def destroy
   #   @post.destroy

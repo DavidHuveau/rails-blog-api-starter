@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'support/request_helpers'
 
 describe Api::V1::UsersController, type: :controller do
   describe 'GET #show' do
