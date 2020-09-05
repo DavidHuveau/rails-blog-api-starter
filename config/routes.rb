@@ -6,8 +6,11 @@ Rails.application.routes.draw do
     resources :chickens, only: %i[index]
 
     namespace :v1 do
-      resources :posts
-      resources :users, only: %i[show create update destroy]
+      resources :posts, only: %i[show index]
+      resources :users, only: %i[show create update destroy] do
+        # /users/:user_id/posts
+        resources :posts, only: %i[create]
+      end
       resources :sessions, only: %i[create destroy]
     end
   end

@@ -1,5 +1,6 @@
 class Api::V1::PostsController < ApplicationController
-  before_action :set_post, only: [:show, :update, :destroy]
+  before_action :set_post, only: %i[show update destroy]
+  before_action :authenticate_with_token, only: %i[create]
 
   def index
     render json: Post.all
@@ -10,26 +11,22 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def create
-    @post = Post.new(post_params)
-
-    if @post.save
-      render json: @post, status: :created
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    debugger
+    post = current_user.posts.create(post_params)
+    render_or_error(post)
   end
 
-  def update
-    if @post.update(post_params)
-      render json: @post
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
-  end
+  # def update
+  #   if @post.update(post_params)
+  #     render json: @post
+  #   else
+  #     render json: @post.errors, status: :unprocessable_entity
+  #   end
+  # end
 
-  def destroy
-    @post.destroy
-  end
+  # def destroy
+  #   @post.destroy
+  # end
 
   private
 
