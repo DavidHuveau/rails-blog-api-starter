@@ -12,5 +12,14 @@ class Post
 
   index({ user_id: 1 }, background: true)
 
+  def as_json(_options = {})
+    {
+      id: id,
+      title: title,
+      detail: detail,
+      published: published
+    }
+  end
+
   default_scope -> { desc(:created_at) }
 end
