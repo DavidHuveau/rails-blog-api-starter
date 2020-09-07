@@ -55,7 +55,8 @@ class User
       auth_token: authentication_token,
       email: email,
       first_name: first_name,
-      last_name: last_name
+      last_name: last_name,
+      post_ids: self.posts.map(&:id)
     }
   end
 

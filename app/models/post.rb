@@ -17,7 +17,8 @@ class Post
       id: id,
       title: title,
       detail: detail,
-      published: published
+      published: published,
+      user: self.user
     }
   end
 

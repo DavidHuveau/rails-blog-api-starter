@@ -5,7 +5,8 @@ class Api::V1::PostsController < ApplicationController
   before_action :authenticate_with_token, only: %i[create update destroy]
 
   def index
-    render json: Post.all
+    posts = params[:post_ids].present? ? Post.find(params[:post_ids]) : Post.all
+    render json: posts
   end
 
   def show
@@ -36,6 +37,6 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :detail, :published)
+    params.require(:post).permit(:title, :detail, :published, :post_ids)
   end
 end

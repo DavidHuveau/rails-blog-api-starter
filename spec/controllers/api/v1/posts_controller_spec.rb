@@ -2,17 +2,45 @@ require 'rails_helper'
 
 describe Api::V1::PostsController, type: :controller do
   describe 'GET #index' do
-    it 'returns 4 records from the database' do
+    before(:each) do
       4.times do
-        post = FactoryGirl.create(:post)
+        FactoryGirl.create(:post)
+      end
+      sleep 1
+      user = FactoryGirl.create :user
+      # api_authorization_header(user.authentication_token)
+    end
+
+    context 'when is not receiving any product_ids parameter' do
+      before(:each) do
+        get :index
       end
 
-      sleep 1
+      it 'returns 4 records from the database' do
+        expect(json_response.size).to eq(4)
+      end
 
-      get :index
+      it { expect(response.response_code).to eq(200) }
 
-      expect(response.response_code).to eq(200)
-      expect(json_response.size).to eq(4)
+      it 'returns the user object into each product' do
+        json_response.each do |post_response|
+          expect(post_response[:user]).to be_present
+        end
+      end
+    end
+
+    context 'when post_ids parameter is sent' do
+      before(:each) do
+        @user = FactoryGirl.create :user
+        3.times { FactoryGirl.create :post, user: @user }
+        get :index, params: { post_ids: @user.post_ids }
+      end
+
+      it 'returns just the posts that belong to the user' do
+        json_response.each do |post_response|
+          expect(post_response[:user][:email]).to eq @user.email
+        end
+      end
     end
   end
 
@@ -27,6 +55,10 @@ describe Api::V1::PostsController, type: :controller do
     it 'returns the information about a reporter on a hash' do
       post_response = json_response
       expect(post_response[:title]).to eq @post.title
+    end
+
+    it 'has the user as a embedded object' do
+      expect(json_response[:user][:email]).to eq @post.user.email
     end
   end
 

@@ -12,7 +12,11 @@ describe Api::V1::UsersController, type: :controller do
       it 'should returns the information about a reporter on a hash' do
         expect(response.response_code).to eq(200)
         user_response = json_response
-        expect(user_response[:email]).to eql @user.email
+        expect(user_response[:email]).to eq @user.email
+      end
+
+      it 'has the post ids as an embedded object' do
+        expect(json_response[:post_ids]).to eql []
       end
     end
 
