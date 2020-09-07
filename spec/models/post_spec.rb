@@ -31,4 +31,36 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe '.filter_by_title' do
+    before(:each) do
+      @post1 = FactoryGirl.create :post, title: 'A plasma TV'
+      @post2 = FactoryGirl.create :post, title: 'Fastest Laptop'
+      @post3 = FactoryGirl.create :post, title: 'CD player'
+      @post4 = FactoryGirl.create :post, title: 'LCD TV'
+    end
+
+    context "when a 'TV' title pattern is sent" do
+      it 'returns the 2 posts matching' do
+        expect(Post.filter_by_title('tv').count).to eq 2
+        expect(Post.filter_by_title('TV')).to contain_exactly(@post1, @post4)
+      end
+    end
+  end
+
+  describe '.recent' do
+    before(:each) do
+      @post1 = FactoryGirl.create :post, title: 'abcd'
+      @post2 = FactoryGirl.create :post, title: 'a'
+      @post3 = FactoryGirl.create :post, title: 'abcde'
+      @post4 = FactoryGirl.create :post, title: 'abc'
+      # we will touch some posts to update them
+      @post2.touch
+      @post3.touch
+    end
+
+    it 'returns the most updated records' do
+      expect(Post.recent[0..3].map(&:id)).to eq([@post3, @post2, @post4, @post1].map(&:id))
+    end
+  end
 end
