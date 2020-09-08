@@ -5,8 +5,7 @@ class Api::V1::PostsController < ApplicationController
   before_action :authenticate_with_token, only: %i[create update destroy]
 
   def index
-    posts = params[:post_ids].present? ? Post.find(params[:post_ids]) : Post.all
-    render json: posts
+    render json: Post.search(params)
   end
 
   def show

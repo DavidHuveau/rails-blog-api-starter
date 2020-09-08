@@ -23,19 +23,14 @@ class Post
   end
 
   default_scope -> { desc(:created_at) }
+  scope :recent, -> { unscoped.desc(:updated_at) }
   # MongoID Like query => regex with i to make the query case insensitive
   scope :filter_by_title, -> (keyword) { where(title: /.*#{keyword}.*/i) }
-  scope :recent, -> { unscoped.desc(:updated_at) }
 
-
-  # def self.search(params = {})
-  #   products = params[:product_ids].present? ? Product.find(params[:product_ids]) : Product.all
-
-  #   products = products.filter_by_title(params[:keyword]) if params[:keyword]
-  #   products = products.above_or_equal_to_price(params[:min_price].to_f) if params[:min_price]
-  #   products = products.below_or_equal_to_price(params[:max_price].to_f) if params[:max_price]
-  #   products = products.recent(params[:recent]) if params[:recent].present?
-
-  #   products
-  # end
+  def self.search(params = {})
+    posts = params[:post_ids].present? ? Post.find(params[:post_ids]) : Post.all
+    posts = posts.filter_by_title(params[:keyword]) if params[:keyword].present?
+    posts = posts.recent(params[:recent]) if params[:recent].present?
+    posts
+  end
 end

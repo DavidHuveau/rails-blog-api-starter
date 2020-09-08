@@ -43,7 +43,7 @@ RSpec.describe User, type: :model do
     context "when a 'TV' title pattern is sent" do
       it 'returns the 2 posts matching' do
         expect(Post.filter_by_title('tv').count).to eq 2
-        expect(Post.filter_by_title('TV')).to contain_exactly(@post1, @post4)
+        expect(Post.filter_by_title('TV')).to match_array([@post1, @post4])
       end
     end
   end
@@ -61,6 +61,34 @@ RSpec.describe User, type: :model do
 
     it 'returns the most updated records' do
       expect(Post.recent[0..3].map(&:id)).to eq([@post3, @post2, @post4, @post1].map(&:id))
+    end
+  end
+
+  describe '.search' do
+    before(:all) do
+      @post1 = FactoryGirl.create :post, title: 'game boy'
+      @post2 = FactoryGirl.create :post, title: 'ds'
+      @post3 = FactoryGirl.create :post, title: 'Game gear'
+    end
+
+    it 'when no match' do
+      search_hash = { keyword: 'videogame' }
+      expect(Post.search(search_hash)).to be_empty
+    end
+
+    it 'when match' do
+      search_hash = { keyword: 'game' }
+      expect(Post.search(search_hash).count).to eq 2
+      expect(Post.search(search_hash)).to match_array([@post1, @post3])
+    end
+
+    it 'when an empty hash is sent' do
+      expect(Post.search({})).to eq Post.all.to_a
+    end
+
+    it 'when post_ids is present' do
+      search_hash = { post_ids: [@post1.id, @post2.id] }
+      expect(Post.search(search_hash)).to match_array([@post1, @post2])
     end
   end
 end
