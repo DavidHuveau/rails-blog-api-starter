@@ -110,14 +110,14 @@ describe Api::V1::PostsController, type: :controller do
 
     context 'when is successfully updated' do
       before(:each) do
-        patch :update, params: { user_id: @user.id, id: @post.id, post: { title: 'An expensive TV' } }
+        patch :update, params: { user_id: @user.id, id: @post.id, post: { title: 'An expensive computer' } }
       end
 
       it { expect(response.response_code).to eq(200) }
 
       it 'renders the json representation for the updated user' do
         post_response = json_response
-        expect(post_response[:title]).to eql 'An expensive TV'
+        expect(post_response[:title]).to eql 'An expensive computer'
       end
     end
 

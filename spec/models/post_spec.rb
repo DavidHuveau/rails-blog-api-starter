@@ -33,7 +33,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '.filter_by_title' do
-    before(:each) do
+    before(:all) do
       @post1 = FactoryGirl.create :post, title: 'A plasma TV'
       @post2 = FactoryGirl.create :post, title: 'Fastest Laptop'
       @post3 = FactoryGirl.create :post, title: 'CD player'
@@ -49,7 +49,7 @@ RSpec.describe User, type: :model do
   end
 
   describe '.recent' do
-    before(:each) do
+    before(:all) do
       @post1 = FactoryGirl.create :post, title: 'abcd'
       @post2 = FactoryGirl.create :post, title: 'a'
       @post3 = FactoryGirl.create :post, title: 'abcde'
