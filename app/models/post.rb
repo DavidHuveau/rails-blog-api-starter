@@ -30,7 +30,7 @@ class Post
   def self.search(params = {})
     posts = params[:post_ids].present? ? Post.find(params[:post_ids]) : Post.all
     posts = posts.filter_by_title(params[:keyword]) if params[:keyword].present?
-    posts = posts.recent(params[:recent]) if params[:recent].present?
+    posts = posts.recent if params[:recent].present?
     posts
   end
 end

@@ -6,7 +6,7 @@
 	},
 	"item": [
 		{
-			"name": "users",
+			"name": "users#create",
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -36,7 +36,7 @@
 			"response": []
 		},
 		{
-			"name": "users",
+			"name": "users#index",
 			"request": {
 				"method": "GET",
 				"header": [
@@ -64,7 +64,7 @@
 			"response": []
 		},
 		{
-			"name": "users",
+			"name": "users#update",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -76,7 +76,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\"user\": {\n        \"first_name\":\"David\",\n        \"last_name\":\"Huveaux\"\n    }\n}",
+					"raw": "{\n\"user\": {\n        \"first_name\":\"David\",\n        \"last_name\":\"Huveau\"\n    }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -95,6 +95,203 @@
 						"v1",
 						"users",
 						"5f4be79cfa016ae869301bb1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "posts#index",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/api/v1/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "posts#create",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "2UGiftPPNXyDEjejwQkv",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"post\":\n    {\n        \"title\": \"voyage\",\n        \"detail\": \"detail voyage\",\n        \"published\": false\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/users/5f4be79cfa016ae869301bb1/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"5f4be79cfa016ae869301bb1",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "posts#update",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "2UGiftPPNXyDEjejwQkv",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"post\":\n    {\n        \"title\": \"voyage suite\",\n        \"detail\": \"detail voyage suite\",\n        \"published\": false\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/users/5f4be79cfa016ae869301bb1/posts/5f5874963d422fa9c7abb146",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"users",
+						"5f4be79cfa016ae869301bb1",
+						"posts",
+						"5f5874963d422fa9c7abb146"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "posts#index#post_ids",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"post\": {\n        \"post_ids\": \"5f5874963d422fa9c7abb146, 5f3b76663d422f0701e90565\"\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "posts#index#filter_by_title",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"keyword\": \"voyage\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "posts#index#recent",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"recent\": \"true\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/posts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"posts"
 					]
 				}
 			},
