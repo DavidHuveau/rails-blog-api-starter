@@ -41,5 +41,6 @@ end
 group :test do
   gem 'rspec-mocks'
   gem 'rspec-rails'
+  gem "email_spec"
   # gem 'webmock'
 end

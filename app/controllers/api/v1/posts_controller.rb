@@ -36,6 +36,6 @@ class Api::V1::PostsController < ApplicationController
   end
 
   def post_params
-    params.require(:post).permit(:title, :detail, :published, :post_ids)
+    params.require(:post).permit(:title, :detail, :published, post_ids: [])
   end
 end

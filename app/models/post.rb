@@ -9,6 +9,7 @@ class Post
   belongs_to :user
 
   validates_presence_of :title, :user_id
+  after_save :send_confirmation_email
 
   index({ user_id: 1 }, background: true)
 
@@ -33,4 +34,13 @@ class Post
     posts = posts.recent if params[:recent].present?
     posts
   end
+
+  private
+
+  def send_confirmation_email
+    return unless self.published_changed? && self.published
+
+    PostMailer.send_confirmation(self).deliver
+  end
+
 end
