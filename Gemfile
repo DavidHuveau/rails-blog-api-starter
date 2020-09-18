@@ -25,6 +25,9 @@ gem 'mongoid', '~> 7.0.5'
 
 gem 'devise'
 
+gem 'will_paginate'
+gem 'will_paginate_mongoid'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_girl_rails'

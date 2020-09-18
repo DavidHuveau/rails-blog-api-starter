@@ -1,12 +1,15 @@
 class Api::V1::PostsController < ApplicationController
   include SmartRenderer
+  include Paginable
 
   before_action :set_post, only: %i[show]
   before_action :authenticate_with_token, only: %i[create update destroy]
 
   def index
-    posts = Post.search(params)
-    render json: { data: posts }
+    # posts = Post.search(params)
+    posts = Post.search(params).paginate(page: params[:page], per_page: params[:per_page])
+    # posts = Post.search(params).paginate(page: current_page, per_page: per_page)
+    render json: { data: posts }.merge(pagination_data('api_v1_posts_path', posts))
   end
 
   def show
