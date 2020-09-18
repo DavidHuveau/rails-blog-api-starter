@@ -9,7 +9,7 @@ class Api::V1::PostsController < ApplicationController
     # posts = Post.search(params)
     # posts = Post.search(params).paginate(page: params[:page], per_page: params[:per_page])
     posts = Post.search(params).paginate(page: current_page, per_page: per_page)
-    render json: { data: posts }.merge(pagination_data('api_v1_posts_path', posts))
+    render json: with_pagination_data(posts)
   end
 
   def show

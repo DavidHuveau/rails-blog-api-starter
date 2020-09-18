@@ -9,21 +9,36 @@ module Paginable
     (params[:per_page] || 2).to_i
   end
 
-  def pagination_data(links_path, collection)
+  def with_pagination_data(collection)
     {
-      links: {
-        first_page: send(links_path, page: 1),
-        last_page: send(links_path, page: collection.total_pages),
-        previous_page: send(links_path, page: collection.previous_page),
-        next_page: send(links_path, page: collection.next_page)
-      },
-      meta: {
-        pagination: {
-          current_page: collection.current_page,
-          per_page: collection.per_page,
-          total_pages: collection.total_pages,
-          total_entries: collection.total_entries
-        }
+      data: collection,
+      links: pagination_links(collection),
+      meta: meta_data(collection)
+    }
+  end
+
+  private
+
+  def pagination_links(collection)
+    {
+      first_page: pagination_link(1),
+      last_page: pagination_link(collection.total_pages),
+      previous_page: collection.current_page > 1 ? pagination_link(collection.previous_page) : '',
+      next_page: collection.current_page < collection.total_pages ? pagination_link(collection.next_page) : ''
+    }
+  end
+
+  def pagination_link(page)
+    url_for(page: page, per_page: per_page)
+  end
+
+  def meta_data(collection)
+    {
+      pagination: {
+        current_page: collection.current_page,
+        per_page: collection.per_page,
+        total_pages: collection.total_pages,
+        total_entries: collection.total_entries
       }
     }
   end
