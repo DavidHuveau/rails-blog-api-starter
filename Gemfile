@@ -3,8 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-gem 'rails', '~> 6.0.0'
 gem 'puma', '~> 3.11'
+gem 'rails', '~> 6.0.0'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.7'
 # Use Redis adapter to run Action Cable in production
@@ -19,16 +19,17 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # gem 'rack-cors'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'mongoid', '~> 7.0.5'
 
 gem 'devise'
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_girl_rails'
   gem 'faker'
+  gem 'rubocop'
 end
 
 group :development do
@@ -39,8 +40,8 @@ group :development do
 end
 
 group :test do
+  gem 'email_spec'
   gem 'rspec-mocks'
   gem 'rspec-rails'
-  gem "email_spec"
   # gem 'webmock'
 end

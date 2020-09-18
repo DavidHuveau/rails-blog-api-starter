@@ -19,14 +19,14 @@ class Post
       title: title,
       detail: detail,
       published: published,
-      user: self.user
+      user: user
     }
   end
 
   default_scope -> { desc(:created_at) }
   scope :recent, -> { unscoped.desc(:updated_at) }
   # MongoID Like query => regex with i to make the query case insensitive
-  scope :filter_by_title, -> (keyword) { where(title: /.*#{keyword}.*/i) }
+  scope :filter_by_title, ->(keyword) { where(title: /.*#{keyword}.*/i) }
 
   def self.search(params = {})
     posts = params[:post_ids].present? ? Post.find(params[:post_ids]) : Post.all
@@ -38,9 +38,8 @@ class Post
   private
 
   def send_confirmation_email
-    return unless self.published_changed? && self.published
+    return unless published_changed? && published
 
     PostMailer.send_confirmation(self).deliver
   end
-
 end

@@ -1,5 +1,4 @@
 RSpec.describe User, type: :model do
-
   describe '#posts fields' do
     let(:post) { FactoryGirl.build :post }
 

@@ -6,7 +6,7 @@ describe Api::V1::UsersController, type: :controller do
       before(:each) do
         @user = FactoryGirl.create :user
         api_authorization_header(@user.authentication_token)
-        get :show, params: { id: @user.id}
+        get :show, params: { id: @user.id }
       end
 
       it 'should returns the information about a reporter on a hash' do
@@ -23,7 +23,7 @@ describe Api::V1::UsersController, type: :controller do
     context 'without authorization header' do
       before(:each) do
         @user = FactoryGirl.create :user
-        get :show, params: { id: @user.id}
+        get :show, params: { id: @user.id }
       end
 
       it 'should returns the information about a reporter on a hash' do
@@ -54,7 +54,7 @@ describe Api::V1::UsersController, type: :controller do
           password: '12345678',
           password_confirmation: '12345678'
         }
-        post :create, params: { user: invalid_user_attributes}
+        post :create, params: { user: invalid_user_attributes }
       end
 
       it 'renders the json errors on why the user could not be created' do

@@ -56,7 +56,7 @@ class User
       email: email,
       first_name: first_name,
       last_name: last_name,
-      post_ids: self.posts.map(&:id)
+      post_ids: posts.map(&:id)
     }
   end
 
@@ -70,7 +70,4 @@ class User
       break token unless User.where(authentication_token: token).first
     end
   end
-
-  private
-
 end
