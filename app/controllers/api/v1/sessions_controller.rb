@@ -8,7 +8,7 @@ class Api::V1::SessionsController < ApplicationController
       sign_in user
       user.generate_authentication_token
       user.save
-      render json: user, status: :ok
+      render json: { data: user }
     else
       render json: { errors: 'Invalid email or password' }, status: :unprocessable_entity
     end
@@ -17,6 +17,7 @@ class Api::V1::SessionsController < ApplicationController
   def destroy
     user = User.find_by(authentication_token: params[:id])
     user.set authentication_token: ''
+    # user.unset :authentication_token
     head :no_content
   end
 end

@@ -3,13 +3,14 @@ class Api::V1::UsersController < ApplicationController
 
   before_action :authenticate_with_token, only: %i[show update destroy]
 
+  def show
+    render json: { data: current_user }
+    # render_or_error(current_user, :ok)
+  end
+
   def create
     user = User.create(user_params)
     render_or_error(user)
-  end
-
-  def show
-    render_or_error(current_user, :ok)
   end
 
   def update
@@ -21,7 +22,7 @@ class Api::V1::UsersController < ApplicationController
   def destroy
     user = current_user
     user.destroy
-    render_or_error(user, :ok)
+    render json: { data: user }
   end
 
   private

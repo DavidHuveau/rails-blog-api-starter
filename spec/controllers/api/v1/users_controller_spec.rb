@@ -12,11 +12,11 @@ describe Api::V1::UsersController, type: :controller do
       it 'should returns the information about a reporter on a hash' do
         expect(response.response_code).to eq(200)
         user_response = json_response
-        expect(user_response[:email]).to eq @user.email
+        expect(user_response[:data][:email]).to eq @user.email
       end
 
       it 'has the post ids as an embedded object' do
-        expect(json_response[:post_ids]).to eql []
+        expect(json_response[:data][:post_ids]).to eql []
       end
     end
 
@@ -43,7 +43,7 @@ describe Api::V1::UsersController, type: :controller do
       it 'renders the json representation for the user record just created' do
         expect(response.response_code).to eq(201)
         user_response = json_response
-        expect(user_response[:email]).to eql @user_attributes [:email]
+        expect(user_response[:data][:email]).to eql @user_attributes [:email]
       end
     end
 
@@ -77,7 +77,7 @@ describe Api::V1::UsersController, type: :controller do
       it 'renders the json representation for the updated user' do
         user_response = json_response
         expect(response.response_code).to eq(200)
-        expect(user_response[:email]).to eq 'newmail@example.com'
+        expect(user_response[:data][:email]).to eq 'newmail@example.com'
       end
     end
 

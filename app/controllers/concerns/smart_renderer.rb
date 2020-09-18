@@ -3,7 +3,7 @@ module SmartRenderer
     if instance.errors.any?
       render status: :unprocessable_entity, json: { errors: instance.errors }
     else
-      render status: status, json: instance.as_json(options)
+      render status: status, json: { data: instance.as_json(options) }
     end
   end
 end

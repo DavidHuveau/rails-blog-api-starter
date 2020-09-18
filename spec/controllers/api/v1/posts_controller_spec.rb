@@ -17,13 +17,13 @@ describe Api::V1::PostsController, type: :controller do
       end
 
       it 'returns 4 records from the database' do
-        expect(json_response.size).to eq(4)
+        expect(json_response[:data].size).to eq(4)
       end
 
       it { expect(response.response_code).to eq(200) }
 
       it 'returns the user object into each product' do
-        json_response.each do |post_response|
+        json_response[:data].each do |post_response|
           expect(post_response[:user]).to be_present
         end
       end
@@ -37,7 +37,7 @@ describe Api::V1::PostsController, type: :controller do
       end
 
       it 'returns just the posts that belong to the user' do
-        json_response.each do |post_response|
+        json_response[:data].each do |post_response|
           expect(post_response[:user][:email]).to eq @user.email
         end
       end
@@ -54,11 +54,11 @@ describe Api::V1::PostsController, type: :controller do
 
     it 'returns the information about a reporter on a hash' do
       post_response = json_response
-      expect(post_response[:title]).to eq @post.title
+      expect(post_response[:data][:title]).to eq @post.title
     end
 
     it 'has the user as a embedded object' do
-      expect(json_response[:user][:email]).to eq @post.user.email
+      expect(json_response[:data][:user][:email]).to eq @post.user.email
     end
   end
 
@@ -75,7 +75,7 @@ describe Api::V1::PostsController, type: :controller do
 
       it 'renders the json representation for the post record just created' do
         post_response = json_response
-        expect(post_response[:title]).to eq @post_attributes[:title]
+        expect(post_response[:data][:title]).to eq @post_attributes[:title]
       end
     end
 
@@ -117,7 +117,7 @@ describe Api::V1::PostsController, type: :controller do
 
       it 'renders the json representation for the updated user' do
         post_response = json_response
-        expect(post_response[:title]).to eql 'An expensive computer'
+        expect(post_response[:data][:title]).to eql 'An expensive computer'
       end
     end
 

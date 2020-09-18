@@ -5,11 +5,12 @@ class Api::V1::PostsController < ApplicationController
   before_action :authenticate_with_token, only: %i[create update destroy]
 
   def index
-    render json: Post.search(params)
+    posts = Post.search(params)
+    render json: { data: posts }
   end
 
   def show
-    render json: @post
+    render json: { data: @post }
   end
 
   def create
@@ -26,7 +27,7 @@ class Api::V1::PostsController < ApplicationController
   def destroy
     post = current_user.posts.find(params[:id])
     post.destroy
-    render_or_error(post, :ok)
+    render json: { data: post }
   end
 
   private
