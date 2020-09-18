@@ -7,8 +7,8 @@ class Api::V1::PostsController < ApplicationController
 
   def index
     # posts = Post.search(params)
-    posts = Post.search(params).paginate(page: params[:page], per_page: params[:per_page])
-    # posts = Post.search(params).paginate(page: current_page, per_page: per_page)
+    # posts = Post.search(params).paginate(page: params[:page], per_page: params[:per_page])
+    posts = Post.search(params).paginate(page: current_page, per_page: per_page)
     render json: { data: posts }.merge(pagination_data('api_v1_posts_path', posts))
   end
 
