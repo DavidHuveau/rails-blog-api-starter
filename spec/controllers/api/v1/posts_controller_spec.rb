@@ -2,7 +2,7 @@ require 'rails_helper'
 
 describe Api::V1::PostsController, type: :controller do
   describe 'GET #index' do
-    before(:each) do
+    before(:all) do
       4.times do
         FactoryGirl.create(:post)
       end
@@ -29,12 +29,67 @@ describe Api::V1::PostsController, type: :controller do
       end
     end
 
+    context 'with pagination' do
+      before(:each) do
+        get :index, params: { page: 2, per_page: 2 }
+      end
+
+      it 'returns 2 records from the database' do
+        expect(json_response[:data].size).to eq(2)
+      end
+
+      it { expect(response.response_code).to eq(200) }
+
+      it 'have meta pagination tags' do
+        expect(json_response).to have_key(:meta)
+        expect(json_response[:meta]).to have_key(:pagination)
+        expect(json_response[:meta][:pagination]).to have_key(:current_page)
+        expect(json_response[:meta][:pagination]).to have_key(:per_page)
+        expect(json_response[:meta][:pagination]).to have_key(:total_pages)
+        expect(json_response[:meta][:pagination]).to have_key(:total_entries)
+      end
+
+      it 'have meta pagination values' do
+        expect(json_response[:meta][:pagination][:current_page]).to eq(2)
+        expect(json_response[:meta][:pagination][:per_page]).to eq(2)
+        expect(json_response[:meta][:pagination][:total_pages]).to eq(2)
+        expect(json_response[:meta][:pagination][:total_entries]).to eq(4)
+      end
+
+      it 'have links pagination tags' do
+        expect(json_response).to have_key(:links)
+        expect(json_response[:links]).to have_key(:first_page)
+        expect(json_response[:links]).to have_key(:last_page)
+        expect(json_response[:links]).to have_key(:previous_page)
+        expect(json_response[:links]).to have_key(:next_page)
+      end
+
+      it 'have links pagination values' do
+        expect(json_response[:links][:first_page]).not_to eq nil
+
+        url = json_response[:links][:first_page]
+        data = Rails.application.routes.recognize_path url
+        expect(data).to eq({ controller: 'api/v1/posts', action: 'index' })
+
+        params = Rack::Utils.parse_nested_query(URI.parse(url).query)
+        expect(params).to eq({ 'page' => '1', 'per_page' => '2' })
+
+        expect(json_response[:links][:next_page]).to eq('')
+      end
+    end
+
     context 'when post_ids parameter is sent' do
       before(:each) do
         @user = FactoryGirl.create :user
         3.times { FactoryGirl.create :post, user: @user }
-        get :index, params: { post_ids: @user.post_ids }
+        get :index, params: { post_ids: @user.post_ids.map(&:to_s) }
       end
+
+      it 'returns 3 records from the database' do
+        expect(json_response[:data].size).to eq(3)
+      end
+
+      it { expect(response.response_code).to eq(200) }
 
       it 'returns just the posts that belong to the user' do
         json_response[:data].each do |post_response|

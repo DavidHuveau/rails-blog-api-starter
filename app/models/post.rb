@@ -29,7 +29,8 @@ class Post
   scope :filter_by_title, ->(keyword) { where(title: /.*#{keyword}.*/i) }
 
   def self.search(params = {})
-    posts = params[:post_ids].present? ? Post.find(params[:post_ids]) : Post.all
+    # uses in function instead of find function to be compatible with the paginate method
+    posts = params[:post_ids].present? ? Post.in(id: params[:post_ids]) : Post.all
     posts = posts.filter_by_title(params[:keyword]) if params[:keyword].present?
     posts = posts.recent if params[:recent].present?
     posts

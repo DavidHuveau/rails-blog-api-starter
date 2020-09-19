@@ -6,10 +6,10 @@ module Paginable
   end
 
   def per_page
-    (params[:per_page] || 2).to_i
+    (params[:per_page] || 10).to_i
   end
 
-  def with_pagination_data(collection)
+  def with_pagination(collection)
     {
       data: collection,
       links: pagination_links(collection),

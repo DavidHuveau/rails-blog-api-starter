@@ -1,4 +1,4 @@
-RSpec.describe PostMailer, type: :mailer, focus: true do
+RSpec.describe PostMailer, type: :mailer do
   include Rails.application.routes.url_helpers
 
   describe '.send_confirmation' do
