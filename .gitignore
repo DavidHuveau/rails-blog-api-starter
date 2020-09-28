@@ -22,3 +22,6 @@
 .vscode
 
 .DS_Store
+
+# environment variables
+.env
