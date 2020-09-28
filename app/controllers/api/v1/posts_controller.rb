@@ -6,8 +6,6 @@ class Api::V1::PostsController < ApplicationController
   before_action :authenticate_with_token, only: %i[create update destroy]
 
   def index
-    # posts = Post.search(params)
-    # posts = Post.search(params).paginate(page: params[:page], per_page: params[:per_page])
     posts = Post.search(params).paginate(page: current_page, per_page: per_page)
     render json: with_pagination(posts)
   end
